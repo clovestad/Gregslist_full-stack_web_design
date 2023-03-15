@@ -1,0 +1,12 @@
+body{
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #444;
+    }
+    #banner1{
+        background-color: cadetblue;
+    }
+    #one{
+    background-color: rgb(201, 215, 215);
+    padding : 20px;
+    }
+    
