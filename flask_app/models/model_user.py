@@ -21,7 +21,6 @@ class User:
         result= connectToMySQL(DB).query_db(query,user)
         return result
 
-
     @classmethod
     def get_by_email(cls,data):
         query= "SELECT * from users WHERE email = %(email)s"
@@ -34,13 +33,8 @@ class User:
     def get_by_id(cls, data):
         query = "SELECT * from users WHERE id = %(id)s;"
         results = connectToMySQL(DB).query_db(query, data)
+        print(results)
         return cls(results[0])
-
-    @classmethod
-    def destroy(cls, data):
-        query = "DELETE FROM shows WHERE id = %(id)s;"
-        return connectToMySQL(DB).query_db(query, data) 
-
 
     @staticmethod
     def user_validator(data):

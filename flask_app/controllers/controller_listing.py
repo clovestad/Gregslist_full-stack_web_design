@@ -5,32 +5,21 @@ bcrypt = Bcrypt(app)
 import pprint
 from flask_app.models.model_listing import listing
 
-
-
-
-
-
-
-
-
-
-
-
-@app.route('/new_show', methods=['POST'])
-def create_show():
+@app.route('/new_listing', methods=['POST'])
+def create_listing():
     data = {
         'title' : request.form['title'],
-        'network' : request.form['network'],
-        'date' : request.form['date'],
         'description' : request.form['description'],
-        'users_id' : session['user_id']
+        'location' : request.form['location'],
+        'price' : request.form['price'],
+        'user_id' : session['user_id']
     }
-    valid=show.is_valid(data)
+    valid=listing.is_valid(data)
     if valid:
-        show.create_show(data)
+        listing.create_listing(data)
         pprint.pprint(data)
-        flash('show added')
-        return redirect('/dashboard')
+        flash('listing added')
+        return redirect('/')
     return redirect('/new')
 
 @app.route('/view/<int:id>')
@@ -38,26 +27,41 @@ def view(id):
     id={
         'id':id
     }
-    
-    return render_template('/view.html',show= show.get_by_id(id),shows= show.get_alls() )
-
-@app.route('/edit/<int:id>' )
-def edit(id):
-    id={
-        'id':id
-    }
-    
-    return render_template('/edit.html',show= show.get_by_id(id))
-
-@app.route('/update', methods=["POST"])
-def update():
-        show.update(request.form)
-        return redirect("/dashboard")
+    return render_template('/view.html',listing= listing.get_by_id(id) )
 
 @app.route('/destroy/<int:id>')
 def destroy(id):
     data= {
     'id':id
     }
-    show.destroy(data)
-    return redirect ('/dashboard')
+    listing.destroy(data)
+    return redirect ('/')
+
+@app.route('/edit/<int:id>' )
+def edit(id):
+    id={
+        'id':id
+    }
+    return render_template('/edit.html',listing= listing.get_by_id(id))
+
+@app.route('/update', methods=["POST"])
+def update():
+    data = {
+        'id': request.form['id'],
+        'title' : request.form['title'],
+        'description' : request.form['description'],
+        'location' : request.form['location'],
+        'price' : request.form['price'],
+        'user_id' : session['user_id']
+    }
+    valid=listing.is_valid(data)
+    if valid:
+        listing.update(data)
+        pprint.pprint(data)
+        flash('Listing Updated')
+        return redirect('/')
+    return redirect('/login')
+
+
+
+

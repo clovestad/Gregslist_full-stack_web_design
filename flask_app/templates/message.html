@@ -30,43 +30,26 @@
                 <div>
                 <div class="d-flex justify-content-between "> 
                     <div class="col-lg-2 border border-dark rounded mx-auto " style="width: 400px;" id="one" >
-                        <h3>Create New Listing</h3>
+                                <h3>message persons</h3>
                         <div>
-                            <form action="/new_listing" method="post">
-                                {% with messages = get_flashed_messages() %}
-                                    {% if messages %}
-                                        {% for message in messages %}
-                                            <p class="error">{{message}}</p>
-                                        {% endfor %}
-                                    {% endif %}
-                                {% endwith %}
-                                {%if "user_id" in session %}
+                            <form action="/post_message" method="post">
                             <div class="container d-flex">
                                 <div>
                                     <div class="form-group">
-                                        <label for="title">title</label>
-                                        <input type="text" name="title" class="form-control" id="title" placeholder="" value="">
+                                        <label for="title">from</label>
+                                        <input type="text" name="title" class="form-control" id="title" placeholder="useremail" value="">
                                     </div>
                                     <div class="form-group">
-                                        <label for="description">Description</label>
-                                        <textarea name="description" class="form-control" id="description" placeholder="" value=""  cols="50" rows="10"></textarea>
+                                        <label for="description">Message</label>
+                                        <textarea name="message" class="form-control" id="description" placeholder="" value=""  cols="50" rows="10"></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="title">location</label>
-                                        <input type="text" name="location" class="form-control" id="location" placeholder="" value="">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="price">price</label>
-                                        <input type="price" name="price" class="form-control" id="price" placeholder="$$" value="">
-                                    </div>
-                                        <input type="submit" class="form-control" value="Submit Listing">
+
+
+
+                                        <input type="submit" class="form-control" value="Send Message">
                             </div class= "d-flex ">
                                 </div>
                                 </form>
-                                {%else%}
-                                <h4>You must be logged in to create posts!</h4>
-                                <h4>to login or create account click <a href="/logins">here</a> </h4>
-                                {%endif%}
                         </div>
                     </div>
                     </div></div>

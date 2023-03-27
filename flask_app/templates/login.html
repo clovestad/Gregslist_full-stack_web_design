@@ -16,7 +16,6 @@
             <div class="d-flex justify-content-between">
                 <h3 ><a href="/">Home</a></h3>
                 <h3><a href="/about">About Us</a></h3>
-                <h3><a href="/search">Search</a></h3>
                 <h3><a href="/new">Create Listing</a></h3>
                 <h3><a href="/login">Account</a></h3>
                 <h3><a href="/inbox">Inbox</a></h3>
@@ -66,9 +65,39 @@
                                     <input type="submit" class="form-control" value="Register">
                                 </div>
                             </div>
-                            
+                                <div>
+                                    {%if "user_id" in session %}
+                                    
+                                    <div class="border border-dark rounded" id="one">
+                                        <h1>Welcome Back {{user.first_name}}</h1>
+                                        <h4>Your active listings</h4>
+                                        <div>
+                                            <table class="table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Title</th>
+                                                        <th scope="col">Date Posted</th>
+                                                        <th scope="col">Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {%for listing in listings%}
+                                                    {% if listing.listings.user_id==session.user_id %}
+                                                    <tr>
+                                                        
+                                                        <td><a href="/view/{{listing.listings.id}}">{{listing.listings.title}}</td></a>
+                                                        <td>{{listing.listings.created_at}}</td>
+                                                        <td>${{listing.listings.price}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                {%endif%}
+                                                {%endfor%}
+                                            </table>
+                                        </div>
+                                    </div>
+                                    {%endif%}
+                                </div>
                             <div class="border border-dark rounded" id="one">
-                                
                             </form>
                             {%if "user_id" in session %}
                             <h1><a href="/logout">logout</a></h1>
@@ -86,12 +115,6 @@
                                     <input type="submit" class="form-control" value="login">
                                     </form>
                                 {%endif%}
-
-
-
-                                    
-                                    
-
                             </div>
                         </div>
                     </body>
