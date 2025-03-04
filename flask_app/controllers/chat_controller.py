@@ -1,10 +1,19 @@
 from flask import Blueprint, request, jsonify
+from flask_cors import cross_origin
 
 # Define the blueprint
 chat_bp = Blueprint('chat_bp', __name__)
 
-# Manually handle OPTIONS requests for /chat
+# Chatbot POST route
+@chat_bp.route('/chat', methods=['POST'])
+@cross_origin()  # Allow CORS
+def chat():
+    user_message = request.json.get('message')
+    return jsonify({"response": "Hello, this is your chatbot!"})
+
+# Handle OPTIONS request for CORS preflight
 @chat_bp.route('/chat', methods=['OPTIONS'])
+@cross_origin()
 def options_chat():
     response = jsonify()
     response.headers['Access-Control-Allow-Origin'] = '*'
@@ -12,11 +21,6 @@ def options_chat():
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     return response
 
-# Chatbot POST route
-@chat_bp.route('/chat', methods=['POST'])
-def chat():
-    user_message = request.json.get('message')
-    return jsonify({"response": "Hello, this is your chatbot!"})
 
 
 
