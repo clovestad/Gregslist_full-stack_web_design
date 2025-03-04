@@ -4,6 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+flask = "*"
+flash = "*"
+pymysql = "*"
+flask-bcrypt = "*"
+flask-cors = "*"
 
 [dev-packages]
 

@@ -35,7 +35,7 @@ async function sendMessage() {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: userMessage }),
-            mode: "no-cors"  // This will bypass CORS but you won't get a readable response
+            
         });
         
 
