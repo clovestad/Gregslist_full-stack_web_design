@@ -9,6 +9,7 @@ flash = "*"
 pymysql = "*"
 flask-bcrypt = "*"
 flask-cors = "*"
+ollama = "*"
 
 [dev-packages]
 
