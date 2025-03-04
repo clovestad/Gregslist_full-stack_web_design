@@ -7,20 +7,18 @@
     <title>home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"
-    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI="
-    crossorigin=""/>
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"
-    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM="
-    crossorigin=""></script>
-</head> 
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+</head>
 <body>
-    <div class="d-flex justify-content-around border border-dark rounded-bottom background_color: cadet blue" id="banner1" >
+    <div class="d-flex justify-content-around border border-dark rounded-bottom" style="background-color: cadetblue;" id="banner1">
         <h1>Welcome To Gregslist &trade;</h1>
     </div>
     <div class="container border border-dark rounded-bottom" id="one">
         <div class="flex-container with-margins">
             <div class="d-flex justify-content-between">
-                <h3 ><a href="/">Home</a></h3>
+                <h3><a href="/">Home</a></h3>
                 <h3><a href="/about">About Us</a></h3>
                 <h3><a href="/new">Create Listing</a></h3>
                 <h3><a href="/login">Account</a></h3>
@@ -31,170 +29,164 @@
     <div class="d-flex justify-content-center">
         <hr>
     </div>
-        <div class="d-flex justify-content-between"  >
-            <div>
-                <div class="d-flex justify-content-center"  style="width: auto;" > 
-                    <div class="col-md-3 flex-container border border-dark rounded mx-auto" style="width:800px;" >
-                        <div  >
-                                <h1>Active Postings</h1>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Title</th>
-                                            <th scope="col">Description</th>
-                                            <th scope="col">Date Posted</th>
-                                            <th scope="col">Location</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Contact</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {%for listing in listings%}
-                                        <tr>
-                                            <td><a href="/view/{{listing.listings.id}}">{{listing.listings.title}}</td></a>
-                                            <td>{{listing.listings.description}}</td>
-                                            <td>{{listing.listings.created_at}}</td>
-                                            <td>{{listing.listings.location}}</td>
-                                            <td>${{listing.listings.price}}</td>
-                                            <td>{{listing.email}}</td>
-                                        </tr>
-                                    </tbody>
-                                    {%endfor%}
-                                </table>
-                        </div>
+    <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-center" style="width: auto;">
+            <div class="col-md-3 flex-container border border-dark rounded mx-auto" style="width:800px;">
+                <h1>Active Postings</h1>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">Title</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Date Posted</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for listing in listings %}
+                            <tr>
+                                <td><a href="/view/{{listing.listings.id}}">{{listing.listings.title}}</a></td>
+                                <td>{{listing.listings.description}}</td>
+                                <td>{{listing.listings.created_at}}</td>
+                                <td>{{listing.listings.location}}</td>
+                                <td>${{listing.listings.price}}</td>
+                                <td>{{listing.email}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex justify-content-between">
+                    <div class="row">
+                        <div class="border border-dark rounded" style="height:502px; width: 600px;" id="map"></div>
                     </div>
-                        <DIV class="col-md-3">
-                            <div class="d-flex justify-content-between" >
-                                <div class="row" >
-                                    <div class="border border-dark rounded " style="height:502px; width: 600px; "   id="map">
-                                    </div>
-                                </div>
-                            </div>
-                        </DIV>
                 </div>
             </div>
-                </div>
-                <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-</body>
-
-        <!-- Chatbot Section -->
-        <div id="chatbot-container">
-            <div id="chatbox">
-                <div id="chat-messages"></div>
-                <input type="text" id="user-input" placeholder="Ask me something..." />
-                <button onclick="sendMessage()">Send</button>
-            </div>
-            <button id="chatbot-toggle" onclick="toggleChat()">💬 Chat</button>
         </div>
+    </div>
 
-        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-        <script>
-            function toggleChat() {
-                const chatbox = document.getElementById("chatbox");
-                chatbox.style.display = chatbox.style.display === "none" ? "block" : "none";
-            }
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-            async function sendMessage() {
-                const inputField = document.getElementById("user-input");
-                const chatMessages = document.getElementById("chat-messages");
-                const userMessage = inputField.value.trim();
+    <!-- Chatbot Section -->
+    <div id="chatbot-container">
+        <div id="chatbox">
+            <div id="chat-messages"></div>
+            <input type="text" id="user-input" placeholder="Ask me something..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <button id="chatbot-toggle" onclick="toggleChat()">💬 Chat</button>
+    </div>
 
-                if (!userMessage) return;
+    <script>
+        function toggleChat() {
+            const chatbox = document.getElementById("chatbox");
+            chatbox.style.display = chatbox.style.display === "none" ? "block" : "none";
+        }
 
-                chatMessages.innerHTML += `<div class="user-message">${userMessage}</div>`;
-                inputField.value = "";
+        async function sendMessage() {
+            const inputField = document.getElementById("user-input");
+            const chatMessages = document.getElementById("chat-messages");
+            const userMessage = inputField.value.trim();
 
-                try {
-                    const response = await fetch("http://127.0.0.1:5000/chat", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ message: userMessage })
-                    });
+            if (!userMessage) return;
 
-                    const data = await response.json();
+            chatMessages.innerHTML += `<div class="user-message">${userMessage}</div>`;
+            inputField.value = "";
 
-                    if (data.response) {
-                        chatMessages.innerHTML += `<div class="bot-message">${data.response}</div>`;
-                    } else {
-                        chatMessages.innerHTML += `<div class="bot-message">Error: ${data.error}</div>`;
-                    }
-                } catch (error) {
-                    chatMessages.innerHTML += `<div class="bot-message">Error: Unable to reach server</div>`;
+            try {
+                const response = await fetch("http://127.0.0.1:5000/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: userMessage })
+                });
+
+                const data = await response.json();
+
+                if (data.response) {
+                    chatMessages.innerHTML += `<div class="bot-message">${data.response}</div>`;
+                } else {
+                    chatMessages.innerHTML += `<div class="bot-message">Error: ${data.error}</div>`;
                 }
-
-                chatMessages.scrollTop = chatMessages.scrollHeight;
-            }
-        </script>
-
-        <style>
-            #chatbot-container {
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                width: 300px;
+            } catch (error) {
+                chatMessages.innerHTML += `<div class="bot-message">Error: Unable to reach server</div>`;
             }
 
-            #chatbox {
-                display: none;
-                background: white;
-                border: 1px solid #ddd;
-                padding: 10px;
-                border-radius: 10px;
-                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            }
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
 
-            #chat-messages {
-                max-height: 200px;
-                overflow-y: auto;
-                padding: 5px;
-                border-bottom: 1px solid #ddd;
-            }
+    <style>
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+        }
 
-            .user-message {
-                background: #007bff;
-                color: white;
-                padding: 5px;
-                border-radius: 10px;
-                margin: 5px;
-                text-align: right;
-            }
+        #chatbox {
+            display: none;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
 
-            .bot-message {
-                background: #ddd;
-                padding: 5px;
-                border-radius: 10px;
-                margin: 5px;
-                text-align: left;
-            }
+        #chat-messages {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
 
-            #user-input {
-                width: 80%;
-                padding: 5px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-            }
+        .user-message {
+            background: #007bff;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+            margin: 5px;
+            text-align: right;
+        }
 
-            #chatbot-toggle {
-                background: #007bff;
-                color: white;
-                border: none;
-                padding: 10px;
-                border-radius: 20px;
-                cursor: pointer;
-                display: block;
-                width: 100%;
-                text-align: center;
-                margin-top: 5px;
-            }
+        .bot-message {
+            background: #ddd;
+            padding: 5px;
+            border-radius: 10px;
+            margin: 5px;
+            text-align: left;
+        }
 
-            #chatbot-toggle:hover {
-                background: #0056b3;
-            }
-        </style>
+        #user-input {
+            width: 80%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
 
+        #chatbot-toggle {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        #chatbot-toggle:hover {
+            background: #0056b3;
+        }
+    </style>
 </body>
-<footer class="d-flex justify-content-center" style="padding-top: 40px; height: 40px;"  >
-    <h6 class="border border-dark rounded"   id="one"> &odsold; Powered By-IHaveAlmostNoClueWhatImDoing2023 &odsold;</h6>
+
+<footer class="d-flex justify-content-center" style="padding-top: 40px; height: 40px;">
+    <h6 class="border border-dark rounded" id="one"> &copy; Powered By-IHaveAlmostNoClueWhatImDoing2023 &copy;</h6>
 </footer>
 
 </html>

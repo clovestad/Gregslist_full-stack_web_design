@@ -1,36 +1,25 @@
 from flask import Blueprint, request, jsonify
-from flask_cors import CORS
-from flask_app.models.ollamaapi import chat_with_ollama  # Correct path for API logic
 
-# Create the Blueprint for the chatbot route
-chat_bp = Blueprint('chat', __name__)
+# Define the blueprint
+chat_bp = Blueprint('chat_bp', __name__)
 
-# Enable CORS for this controller
-CORS(chat_bp)
+# Manually handle OPTIONS requests for /chat
+@chat_bp.route('/chat', methods=['OPTIONS'])
+def options_chat():
+    response = jsonify()
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    response.headers['Access-Control-Allow-Methods'] = 'POST, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    return response
 
-# Handle POST and OPTIONS requests for the /chat route
-@chat_bp.route('/chat', methods=['POST', 'OPTIONS'])
+# Chatbot POST route
+@chat_bp.route('/chat', methods=['POST'])
 def chat():
-    if request.method == 'OPTIONS':
-        response = jsonify({"message": "CORS preflight OK"})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type')
-        return response, 200
+    user_message = request.json.get('message')
+    return jsonify({"response": "Hello, this is your chatbot!"})
 
-    # Handle the POST request with user input
-    data = request.get_json()
-    user_message = data.get('message', '')
 
-    if not user_message:
-        return jsonify({"error": "No message provided"}), 400
 
-    try:
-        bot_response = chat_with_ollama(user_message)  # Call the chat function from the model
-        response = jsonify({"response": bot_response})
-        response.headers.add('Access-Control-Allow-Origin', '*')
-        return response
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+
 
 
