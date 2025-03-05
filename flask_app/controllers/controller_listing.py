@@ -1,9 +1,11 @@
 from flask_app import app
-from flask import render_template, session, request, redirect, flash
+from flask import render_template, session, request, redirect, flash, Blueprint, jsonify
 from flask_bcrypt import Bcrypt
 bcrypt = Bcrypt(app)
 import pprint
 from flask_app.models.model_listing import listing
+
+from flask_app.config.mysqlconnection import connectToMySQL
 
 @app.route('/new_listing', methods=['POST'])
 def create_listing():
@@ -61,7 +63,15 @@ def update():
         flash('Listing Updated')
         return redirect('/')
     return redirect('/login')
+#futurefeature to geocode db entries to utilize the leaflet app posting all listings location on leaflet
+'''listing_bp = Blueprint('listing', __name__)
 
+@listing_bp.route('/api/locations', methods=['GET'])
+def get_locations():
+    query = "SELECT id, title, location, latitude, longitude FROM listings WHERE latitude IS NOT NULL AND longitude IS NOT NULL"
+    listings = connectToMySQL('gregslist').query_db(query)
+
+    return jsonify(listings)'''
 
 
 

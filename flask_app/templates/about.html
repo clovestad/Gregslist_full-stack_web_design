@@ -63,6 +63,120 @@
                     </div>
                     </body>
                 </div>
+                    <!-- Chatbot Section -->
+    <div id="chatbot-container">
+        <div id="chatbox">
+            <div id="chat-messages"></div>
+            <input type="text" id="user-input" placeholder="Ask me something..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+        <button id="chatbot-toggle" onclick="toggleChat()">💬 Chat</button>
+    </div>
+
+    <script>
+        function toggleChat() {
+            const chatbox = document.getElementById("chatbox");
+            chatbox.style.display = chatbox.style.display === "none" ? "block" : "none";
+        }
+
+        async function sendMessage() {
+            const inputField = document.getElementById("user-input");
+            const chatMessages = document.getElementById("chat-messages");
+            const userMessage = inputField.value.trim();
+
+            if (!userMessage) return;
+
+            chatMessages.innerHTML += `<div class="user-message">${userMessage}</div>`;
+            inputField.value = "";
+
+            try {
+                const response = await fetch("http://localhost:5000/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: userMessage })
+                });
+
+                const data = await response.json();
+
+                if (data.response) {
+                    chatMessages.innerHTML += `<div class="bot-message">${data.response}</div>`;
+                } else {
+                    chatMessages.innerHTML += `<div class="bot-message">Error: ${data.error}</div>`;
+                }
+            } catch (error) {
+                chatMessages.innerHTML += `<div class="bot-message">Error: Unable to reach server</div>`;
+            }
+
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    </script>
+
+    <style>
+        #chatbot-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 300px;
+        }
+
+        #chatbox {
+            display: none;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #chat-messages {
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-message {
+            background: #007bff;
+            color: white;
+            padding: 5px;
+            border-radius: 10px;
+            margin: 5px;
+            text-align: right;
+        }
+
+        .bot-message {
+            background: #ddd;
+            padding: 5px;
+            border-radius: 10px;
+            margin: 5px;
+            text-align: left;
+        }
+
+        #user-input {
+            width: 80%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #chatbot-toggle {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: block;
+            width: 100%;
+            text-align: center;
+            margin-top: 5px;
+        }
+
+        #chatbot-toggle:hover {
+            background: #0056b3;
+        }
+    </style>
+</body>
                 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
                 <footer class="d-flex justify-content-center" style="padding-top: 40px; height: 40px;"  >
                     <h6 class="border border-dark rounded"   id="one"> &odsold; Powered By-IHaveAlmostNoClueWhatImDoing2023 &odsold;</h6>

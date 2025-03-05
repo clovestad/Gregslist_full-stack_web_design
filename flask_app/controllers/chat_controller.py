@@ -12,7 +12,7 @@ def chat():
     user_message = request.json.get('message')
     
     # Call Ollama LLM
-    response = ollama.chat(model='mistral', messages=[{'role': 'user', 'content': user_message}])
+    response = ollama.chat(model='gregslist', messages=[{'role': 'user', 'content': user_message}])
     
     return jsonify({"response": response['message']['content']})  # Return AI-generated response
 

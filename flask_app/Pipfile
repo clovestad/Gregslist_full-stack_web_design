@@ -10,6 +10,8 @@ pymysql = "*"
 flask-bcrypt = "*"
 flask-cors = "*"
 ollama = "*"
+mysql-connector-python = "*"
+cryptography = "*"
 
 [dev-packages]
 
